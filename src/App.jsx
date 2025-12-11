@@ -8,6 +8,8 @@ import ColomboPage from "./Pages/gallerysection/colombo"
 import EllaPage from "./Pages/gallerysection/ella"
 import GallePage from "./Pages/gallerysection/galle"
 import SigiriyaPage from "./Pages/gallerysection/SigiriyaFortress"
+import LoginPage from "./Pages/loginPage"
+import RegisterPage from "./Pages/registerPage"
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -20,6 +22,9 @@ export default function App() {
         <Route path="/galle" element={<GallePage />} />
         <Route path="/sigiriyafortress" element={<SigiriyaPage />} />
         <Route path="/admin/*" element={<AdminPage/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
+
 
       </Routes>
       <Footer/>

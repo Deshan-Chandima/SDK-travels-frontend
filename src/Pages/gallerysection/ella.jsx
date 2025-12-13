@@ -198,19 +198,19 @@ const EllaPage = () => {
           {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
              <ExperienceCard 
-                img="/pagesPhotos/ella/nine-arch.jpg"
+                img="/pagesPhotos/ella/ninearch.png"
                 title="Nine Arch Bridge"
                 subtitle="Colonial Marvel"
                 desc="An architectural masterpiece built entirely of stone and brick during British colonial times, surrounded by verdant forest and tea plantations."
              />
              <ExperienceCard 
-                img="/pagesPhotos/ella/little-adams-peak.jpg"
+                img="/pagesPhotos/ella/littleadamspeak.png"
                 title="Little Adam's Peak"
                 subtitle="Scenic Hike"
                 desc="An easy yet rewarding trek offering panoramic views of Ella Gap and the surrounding mountains, perfect for sunrise or sunset."
              />
              <ExperienceCard 
-                img="/pagesPhotos/ella/ravana-falls.jpg"
+                img="/pagesPhotos/ella/ravanafalls.png"
                 title="Ravana Falls"
                 subtitle="Cascading Beauty"
                 desc="A stunning waterfall that flows year-round, named after the legendary King Ravana from the ancient Indian epic Ramayana."
@@ -232,7 +232,7 @@ const EllaPage = () => {
             <div className="group cursor-pointer">
                 <div className="overflow-hidden h-[400px] mb-8 relative">
                     <div className="absolute inset-0 bg-stone-900/10 group-hover:bg-transparent transition-colors z-10"></div>
-                    <img src="/pagesPhotos/ella/tea-plantation.jpg" alt="Tea Plantation" className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"/>
+                    <img src="/pagesPhotos/ella/teaplantation.png" alt="Tea Plantation" className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"/>
                 </div>
                 <div className="flex flex-col gap-4 pr-10">
                     <span className="text-xs font-bold text-yellow-600 uppercase tracking-widest">Tea Culture & Heritage</span>
@@ -252,7 +252,7 @@ const EllaPage = () => {
             <div className="group cursor-pointer mt-12 lg:mt-0">
                 <div className="overflow-hidden h-[400px] mb-8 relative">
                     <div className="absolute inset-0 bg-stone-900/10 group-hover:bg-transparent transition-colors z-10"></div>
-                    <img src="/pagesPhotos/ella/train-ride.jpg" alt="Train Journey" className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"/>
+                    <img src="/pagesPhotos/ella/trainride.png" alt="Train Journey" className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"/>
                 </div>
                 <div className="flex flex-col gap-4 pr-10">
                     <span className="text-xs font-bold text-yellow-600 uppercase tracking-widest">Epic Journeys</span>
@@ -290,7 +290,7 @@ const EllaPage = () => {
                 {/* Offer 1 */}
                 <div className="bg-stone-800 rounded-3xl p-4 group hover:bg-stone-800/80 transition-colors">
                     <div className="relative h-64 overflow-hidden rounded-2xl mb-6">
-                        <img src="/pagesPhotos/ella/eco-lodge.jpg" alt="Eco Lodge" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
+                        <img src="/pagesPhotos/ella/ecolodge.png" alt="Eco Lodge" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                         <div className="absolute top-4 right-4 bg-white text-stone-900 px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest">
                             Eco-Friendly
                         </div>
@@ -313,7 +313,7 @@ const EllaPage = () => {
                 {/* Offer 2 */}
                 <div className="bg-stone-800 rounded-3xl p-4 group hover:bg-stone-800/80 transition-colors">
                     <div className="relative h-64 overflow-hidden rounded-2xl mb-6">
-                        <img src="/pagesPhotos/ella/adventure-pack.jpg" alt="Adventure Package" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
+                        <img src="/pagesPhotos/ella/adventurepack.png" alt="Adventure Package" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                     </div>
                     <div className="px-4 pb-4">
                         <h3 className="text-2xl font-serif mb-2">Ultimate Adventure Pack</h3>

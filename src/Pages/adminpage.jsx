@@ -13,14 +13,16 @@ import { FiLogOut } from "react-icons/fi";
 
 // Pages
 import AdminAdminPage from "./admin/adminAdminPage";
+import PackageAdminPage from "./admin/packageAdminPage"; 
+import UpdatePackage from "./admin/updatePackage";// ✅ real packages page
+import AddPackageAdminPage from "./admin/addPackageAdminPage";
 
 // Placeholder pages
 const UsersPage = () => <div className="p-10 text-white">Users Page (Coming Soon)</div>;
-const PackagesPage = () => <div className="p-10 text-white">Packages Page (Coming Soon)</div>;
 const HotelsPage = () => <div className="p-10 text-white">Hotels Page (Coming Soon)</div>;
 
-// SidebarLink component
-function SidebarLink({ to, icon: IconComp, label, onClick }) {
+/* ================= Sidebar Link ================= */
+function SidebarLink({ to, icon: Icon, label, onClick }) {
   return (
     <NavLink
       to={to}
@@ -30,33 +32,31 @@ function SidebarLink({ to, icon: IconComp, label, onClick }) {
         [
           "flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all",
           "text-slate-400 hover:text-white hover:bg-teal-500/10",
-          isActive ? "text-white bg-teal-600/20 border border-teal-500/20 shadow" : "",
+          isActive ? "text-white bg-teal-600/20 border border-teal-500/20" : "",
         ].join(" ")
       }
     >
-      {IconComp && <IconComp className="text-xl" />}
+      {Icon && <Icon className="text-xl" />}
       <span>{label}</span>
     </NavLink>
   );
 }
 
-// Dashboard Hero section
+/* ================= Dashboard Hero ================= */
 function DashboardHero() {
   const cards = [
-    { label: "Manage Admins", to: "/admin/admins", icon: RiAdminFill, color: "text-purple-400" },
-    { label: "Users", to: "/admin/users", icon: FaUsers, color: "text-blue-400" },
-    { label: "Packages", to: "/admin/packages", icon: FaMapMarkedAlt, color: "text-teal-400" },
-    { label: "Hotels", to: "/admin/hotels", icon: FaHotel, color: "text-orange-400" },
+    { label: "Manage Admins", to: "/admin/admins", icon: RiAdminFill },
+    { label: "Users", to: "/admin/users", icon: FaUsers },
+    { label: "Packages", to: "/admin/packages", icon: FaMapMarkedAlt },
+    { label: "Hotels", to: "/admin/hotels", icon: FaHotel },
   ];
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl bg-gradient-to-r from-teal-500 via-cyan-600 to-blue-600 p-[1px] shadow-xl">
-        <div className="rounded-2xl bg-slate-900/90 p-8 backdrop-blur text-white">
+      <div className="rounded-2xl bg-gradient-to-r from-teal-500 to-blue-600 p-[1px]">
+        <div className="rounded-2xl bg-slate-900 p-8 text-white">
           <h1 className="text-3xl font-bold">Travel Admin Dashboard</h1>
-          <p className="text-teal-100 mt-2 text-lg">
-            Manage destinations, bookings and users in one dashboard.
-          </p>
+          <p className="text-teal-200 mt-2">Manage destinations, bookings and users</p>
         </div>
       </div>
 
@@ -65,14 +65,14 @@ function DashboardHero() {
           <NavLink
             key={c.label}
             to={c.to}
-            className="group rounded-2xl border border-white/5 bg-slate-800/50 hover:bg-slate-800 p-6 flex gap-4 items-center transition transform hover:-translate-y-1 hover:shadow-lg shadow-teal-900/20"
+            className="rounded-2xl bg-slate-800 hover:bg-slate-700 p-6 flex gap-4 items-center"
           >
-            <div className={`p-3 rounded-full bg-slate-900/50 ${c.color} text-2xl`}>
+            <div className="text-2xl text-teal-400">
               <c.icon />
             </div>
             <div>
-              <p className="text-slate-400 text-xs uppercase">Go to</p>
-              <p className="text-lg font-bold text-slate-100">{c.label}</p>
+              <p className="text-xs text-slate-400">Go to</p>
+              <p className="font-bold text-white">{c.label}</p>
             </div>
           </NavLink>
         ))}
@@ -81,39 +81,36 @@ function DashboardHero() {
   );
 }
 
-// Main AdminPage
+/* ================= MAIN ADMIN PAGE ================= */
 export default function AdminPage() {
-  const [status, setStatus] = useState("loading");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Admin Auth Check (safe)
-  useEffect(() => {
+  /* 🔐 Admin Auth State */
+  const [status, setStatus] = useState(() => {
     const token = localStorage.getItem("token");
-    const storedRole = localStorage.getItem("role");
+    const role = localStorage.getItem("role");
 
-    if (!token) {
-      // Safe way to avoid cascading render
-      setTimeout(() => setStatus("not-admin"), 0);
-      return;
-    }
+    if (!token) return "not-admin";
+    if (role === "admin") return "admin";
+    return "loading";
+  });
 
-    // if the client already knows the role (saved at login), trust it first
-    if (storedRole === "admin") {
-      setStatus("admin");
-      return;
-    }
+  /* 🔍 Server check only if needed */
+  useEffect(() => {
+    if (status !== "loading") return;
 
-    // fallback to server-side verification
+    const token = localStorage.getItem("token");
+
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/users", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setStatus(res.data.role === "admin" ? "admin" : "not-admin"))
       .catch(() => setStatus("not-admin"));
-  }, []);
+  }, [status]);
 
-  // Redirect if not admin
+  /* 🚫 Redirect non-admin */
   useEffect(() => {
     if (status === "not-admin") {
       toast.error("You must be an Admin");
@@ -128,16 +125,16 @@ export default function AdminPage() {
     navigate("/");
   };
 
-  if (status === "loading") return <div className="p-10 text-white">Loading...</div>;
+  if (status === "loading") return <div className="p-10 text-white">Checking Admin Access...</div>;
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       {/* Topbar */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-900/70 backdrop-blur">
-        <div className="max-w-[1700px] mx-auto h-16 flex items-center justify-between px-5">
+      <header className="border-b border-white/10 bg-slate-900">
+        <div className="h-16 flex items-center justify-between px-5">
           <div className="flex items-center gap-3">
             <button
-              className="md:hidden p-2 rounded-lg bg-slate-800"
+              className="md:hidden p-2 bg-slate-800 rounded"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               {sidebarOpen ? <HiX /> : <HiMenu />}
@@ -145,17 +142,14 @@ export default function AdminPage() {
             <h2 className="text-xl font-bold">Admin Panel</h2>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex gap-3">
             <button
               onClick={() => navigate("/")}
-              className="px-3 py-1.5 bg-slate-800 rounded-lg flex items-center gap-2"
+              className="px-3 py-1.5 bg-slate-800 rounded flex items-center gap-2"
             >
               <IoMdHome /> Home
             </button>
-            <button
-              onClick={handleLogout}
-              className="px-3 py-1.5 bg-red-600 rounded-lg"
-            >
+            <button onClick={handleLogout} className="px-3 py-1.5 bg-red-600 rounded">
               Logout
             </button>
           </div>
@@ -163,35 +157,36 @@ export default function AdminPage() {
       </header>
 
       {/* Body */}
-      <div className="max-w-[1700px] mx-auto grid grid-cols-1 md:grid-cols-[250px_1fr] gap-5 px-6 py-6">
+      <div className="grid md:grid-cols-[250px_1fr] gap-5 p-6">
         {/* Sidebar */}
         <aside className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
-          <div className="bg-slate-900/80 border border-white/10 rounded-2xl p-5 space-y-3">
+          <div className="bg-slate-900 rounded-2xl p-5 space-y-2">
             <SidebarLink to="/admin" icon={MdDashboard} label="Dashboard" />
             <SidebarLink to="/admin/admins" icon={RiAdminFill} label="Admins" />
             <SidebarLink to="/admin/users" icon={FaUsers} label="Users" />
             <SidebarLink to="/admin/packages" icon={FaMapMarkedAlt} label="Packages" />
             <SidebarLink to="/admin/hotels" icon={FaHotel} label="Hotels" />
+            
             <button
               onClick={handleLogout}
-              className={
-                "w-full text-left flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-slate-400 hover:text-white hover:bg-red-600/10"
-              }
+              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-red-600/20"
             >
               <FiLogOut className="text-xl" />
-              <span>Logout</span>
+              Logout
             </button>
           </div>
         </aside>
 
-        {/* Main Content */}
+        {/* Content */}
         <main>
           <Routes>
             <Route index element={<DashboardHero />} />
             <Route path="admins" element={<AdminAdminPage />} />
             <Route path="users" element={<UsersPage />} />
-            <Route path="packages" element={<PackagesPage />} />
+            <Route path="packages" element={<PackageAdminPage />} /> {/* ✅ Real PackagesPage */}
             <Route path="hotels" element={<HotelsPage />} />
+            <Route path="package-admin/:id" element={<UpdatePackage />} />
+            <Route path="add-package" element={<AddPackageAdminPage />} /> {/* Edit single package */}
           </Routes>
         </main>
       </div>

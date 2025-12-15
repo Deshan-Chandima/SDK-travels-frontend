@@ -48,7 +48,7 @@ const SigiriyaPage = () => {
         {/* Background Image with Slow Parallax Scale */}
       <div className="absolute inset-0 overflow-hidden">
   <img
-    src="/pagesPhotos/sigiriya/hero.jpg"
+    src="/pagesPhotos/sigiriya/hero.png"
     alt="Sigiriya Rock Fortress"
     loading="eager"
     decoding="async"

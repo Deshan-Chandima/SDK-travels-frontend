@@ -48,7 +48,7 @@ const EllaPage = () => {
         {/* Background Image with Slow Parallax Scale */}
         <div className="absolute inset-0 overflow-hidden">
   <img
-    src="/pagesPhotos/ella/hero.jpg"
+    src="/pagesPhotos/ella/hero.png"
     alt="Sigiriya Rock Fortress"
     loading="eager"
     decoding="async"

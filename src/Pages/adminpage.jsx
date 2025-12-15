@@ -165,7 +165,7 @@ export default function AdminPage() {
           <div className="bg-slate-900 rounded-2xl p-5 space-y-2">
             <SidebarLink to="/admin" icon={MdDashboard} label="Dashboard" />
             <SidebarLink to="/admin/admins" icon={RiAdminFill} label="Admins" />
-            <SidebarLink to="/admin/users" icon={FaUsers} label="Users" />
+            {/* <SidebarLink to="/admin/users" icon={FaUsers} label="Users" /> */}
             <SidebarLink to="/admin/packages" icon={FaMapMarkedAlt} label="Packages" />
             <SidebarLink to="/admin/hotels" icon={FaHotel} label="Hotels" />
             

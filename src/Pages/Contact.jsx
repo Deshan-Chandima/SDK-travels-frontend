@@ -1,10 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaPaperPlane } from 'react-icons/fa';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaPaperPlane, FaSearch } from 'react-icons/fa';
 
-// Optional: Replace with a real image of a Sri Lankan landscape or key contact details
 const ContactInfoPanel = () => (
-  // Background set to a deep orange (orange-900) for contrast
   <div className="bg-orange-900 text-white p-10 rounded-xl shadow-2xl h-full flex flex-col justify-center">
     <h2 className="text-3xl font-serif font-bold mb-6 border-b border-orange-400 pb-3">
       Start Your Journey
@@ -44,7 +41,6 @@ export default function Contact() {
     message: "",
   });
 
-  // handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -62,10 +58,20 @@ export default function Contact() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/contact", formData); 
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
       alert("Message sent successfully! We will get back to you shortly.");
 
-      // reset form
       setFormData({
         name: "",
         email: "",
@@ -79,12 +85,11 @@ export default function Contact() {
         message: "",
       });
     } catch (error) {
-      console.error("Submission Error:", error.response ? error.response.data : error.message);
+      console.error("Submission Error:", error);
       alert("Failed to send message. Please try again or contact us directly.");
     }
   };
 
-  // Modern Input Component for cleaner look
   const ModernInput = ({ type, name, placeholder, value, onChange, required = false, min }) => (
     <input
       type={type}
@@ -94,156 +99,229 @@ export default function Contact() {
       onChange={onChange}
       required={required}
       min={min}
-      // Focus ring uses orange-500
       className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-300 outline-none date-input-padding"
       style={name === 'arrivalDate' || name === 'departureDate' ? { color: value ? '#1f2937' : '#9ca3af' } : {}}
     />
   );
   
   return (
-    // Background color set to bg-gray-50 (lightest grey) to maintain the light background look
-    <div className="min-h-screen py-20 bg-gray-50"> 
-      <div className="max-w-6xl mx-auto px-6">
-        
-        {/* Main Heading and Subtitle */}
-        <div className="text-center mb-16">
-          {/* Primary color (orange-700) for the accent text */}
-          <p className="text-lg font-semibold text-orange-700 uppercase tracking-widest">
-            Contact Us
-          </p>
-          <h1 className="text-5xl font-serif font-extrabold text-gray-800 mt-2">
-            Let’s Craft Your Dream Journey
-          </h1>
-          <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
-            Tell us about your ideal Sri Lankan escape, and our experts will design a personalized itinerary just for you.
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section with Background Image */}
+      <div className="relative h-96 bg-cover bg-center" style={{
+        backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('contactpagehero.png')"
+      }}>
+        {/* Navigation */}
+        <nav className="flex items-center justify-between px-8 py-6">
+          <div className="flex items-center">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+              <span className="text-orange-700 font-bold text-xl">S</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-8 text-white">
+            <a href="#" className="hover:text-orange-300 transition-colors">Home</a>
+            <a href="#" className="hover:text-orange-300 transition-colors">Packages</a>
+            <a href="#" className="hover:text-orange-300 transition-colors">Accommodations</a>
+            <a href="#" className="hover:text-orange-300 transition-colors">About</a>
+            <button className="bg-white text-gray-800 px-6 py-2 rounded-full font-semibold hover:bg-orange-100 transition-colors">
+              Contact Us
+            </button>
+          </div>
 
-        {/* Form Grid Layout: Form on Left, Contact Info Panel on Right */}
+          <div className="relative">
+            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input 
+              type="text" 
+              placeholder="Search" 
+              className="bg-white bg-opacity-20 border border-white border-opacity-30 rounded-full pl-12 pr-4 py-2 text-white placeholder-gray-300 focus:outline-none focus:bg-opacity-30 transition-all w-48"
+            />
+          </div>
+        </nav>
+
+        {/* Hero Content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center px-4">
+          <p className="text-cyan-400 font-bold tracking-[0.2em] mb-4 uppercase text-sm animate-fade-in-up">Discover The World</p>
+          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight drop-shadow-2xl mb-6">Contact Us</h1>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
           
-          {/* Contact Info Panel (Col 1) */}
+          {/* Contact Info Panel */}
           <div className="lg:col-span-1 hidden lg:block">
             <ContactInfoPanel />
           </div>
 
-          {/* Form (Cols 2 & 3) */}
+          {/* Form Section */}
           <div className="lg:col-span-2 bg-white p-8 md:p-12 rounded-xl shadow-2xl">
-            <form onSubmit={submitForm} className="space-y-6">
+            <div className="space-y-6">
 
-              {/* Name and Email in a Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <ModernInput 
-                  type="text" 
-                  name="name" 
-                  placeholder="Your Full Name*" 
-                  value={formData.name} 
-                  onChange={handleChange} 
-                  required 
-                />
-                <ModernInput 
-                  type="email" 
-                  name="email" 
-                  placeholder="Your Email Address*" 
-                  value={formData.email} 
-                  onChange={handleChange} 
-                  required 
-                />
-              </div>
+<form className="space-y-6">
 
-              {/* Country and Phone in a Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <ModernInput 
-                  type="text" 
-                  name="country" 
-                  placeholder="Country of Residence*" 
-                  value={formData.country} 
-                  onChange={handleChange} 
-                  required 
-                />
-                <ModernInput 
-                  type="text" 
-                  name="phone" 
-                  placeholder="Phone Number*" 
-                  value={formData.phone} 
-                  onChange={handleChange} 
-                  required 
-                />
-              </div>
-              
-              {/* Dates Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                <ModernInput 
-                  type="date" 
-                  name="arrivalDate" 
-                  placeholder="Arrival Date" 
-                  value={formData.arrivalDate} 
-                  onChange={handleChange} 
-                  required 
-                />
-                <ModernInput 
-                  type="date" 
-                  name="departureDate" 
-                  placeholder="Departure Date" 
-                  value={formData.departureDate} 
-                  onChange={handleChange} 
-                  required 
-                />
-              </div>
+  {/* Name & Email */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Full Name
+      </label>
+      <ModernInput
+        type="text"
+        name="name"
+        
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
+    </div>
 
-              {/* Adults / Kids / Infants Row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                <ModernInput 
-                  type="number" 
-                  name="adults" 
-                  placeholder="No of Adults (12+)*" 
-                  value={formData.adults} 
-                  onChange={handleChange} 
-                  min="1" 
-                  required
-                />
-                <ModernInput 
-                  type="number" 
-                  name="kids" 
-                  placeholder="No of Kids (0 - 11)" 
-                  value={formData.kids} 
-                  onChange={handleChange} 
-                  min="0" 
-                />
-                <ModernInput 
-                  type="number" 
-                  name="infants" 
-                  placeholder="No of Infants (0 - 2)" 
-                  value={formData.infants} 
-                  onChange={handleChange} 
-                  min="0" 
-                />
-              </div>
-              
-              {/* Message */}
-              <div>
-                <textarea
-                  name="message"
-                  placeholder="Tell us more about your travel interests (e.g., beach, culture, wildlife, budget...)"
-                  rows="5"
-                  value={formData.message}
-                  onChange={handleChange}
-                  // Focus ring uses orange-500
-                  className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-300 outline-none resize-none"
-                />
-              </div>
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Email
+      </label>
+      <ModernInput
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+    </div>
+  </div>
+
+  {/* Country & Phone */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Country of Residence
+      </label>
+      <ModernInput
+        type="text"
+        name="Country of residence"
+        value={formData.country}
+        onChange={handleChange}
+        required
+      />
+    </div>
+
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Phone Number
+      </label>
+      <ModernInput
+        type="text"
+        name="phone"
+        value={formData.phone}
+        onChange={handleChange}
+        required
+      />
+    </div>
+  </div>
+
+  {/* Arrival & Departure Dates */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Arrival Date
+      </label>
+      <ModernInput
+        type="date"
+        name="arrivalDate"
+        value={formData.arrivalDate}
+        onChange={handleChange}
+        required
+      />
+    </div>
+
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Departure Date
+      </label>
+      <ModernInput
+        type="date"
+        name="departureDate"
+        value={formData.departureDate}
+        onChange={handleChange}
+        required
+      />
+    </div>
+  </div>
+
+  {/* Adults / Kids / Infants */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Adults
+      </label>
+      <ModernInput
+        type="number"
+        name="adults"
+        placeholder="e.g. 2"
+        value={formData.adults}
+        onChange={handleChange}
+        min="1"
+        required
+      />
+    </div>
+
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Kids
+      </label>
+      <ModernInput
+        type="number"
+        name="kids"
+        placeholder="e.g. 1"
+        value={formData.kids}
+        onChange={handleChange}
+        min="0"
+      />
+    </div>
+
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-medium text-gray-700">
+        Infants
+      </label>
+      <ModernInput
+        type="number"
+        name="infants"
+        placeholder="e.g. 0"
+        value={formData.infants}
+        onChange={handleChange}
+        min="0"
+      />
+    </div>
+  </div>
+
+  {/* Message */}
+  <div className="flex flex-col gap-2">
+    <label className="text-sm font-medium text-gray-700">
+      Message
+    </label>
+    <textarea
+      name="message"
+      placeholder="Tell us more about your travel plans..."
+      rows="5"
+      value={formData.message}
+      onChange={handleChange}
+      className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-300 outline-none resize-none"
+    />
+  </div>
+
+</form>
+
 
               {/* Submit Button */}
               <div className="flex justify-end pt-4">
                 <button
-                  type="submit"
-                  // Button uses orange-700 and hover uses orange-800
+                  onClick={submitForm}
                   className="flex items-center bg-orange-700 text-white px-8 py-3 rounded-lg font-semibold text-lg shadow-lg hover:bg-orange-800 transition duration-300 transform hover:scale-105"
                 >
                   Send Inquiry <FaPaperPlane className="ml-3" />
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

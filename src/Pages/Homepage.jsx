@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, MapPin, Calendar, Users, ArrowRight, Compass } from "lucide-react";
-import Gallery from "../components/Gallery";
 import { Link } from "react-router-dom";
+import Gallery from "../components/Gallery";
+
+// IMPORT YOUR CUSTOM LOADER HERE
+// Assuming the file is named 'loader.jsx' inside the components folder
+import SDKLoader from "../components/loader";
 
 // ---------------------- FONTS & GLOBAL STYLES ----------------------
-// Ensure these are imported in your index.html/css
-// @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
-
 const fontHead = "font-['Playfair_Display',_serif]";
 const fontBody = "font-['DM_Sans',_sans-serif]";
 
@@ -92,11 +93,26 @@ const categories = [
 const galleryList = ["/gallery/img1.jpg", "/gallery/img2.jpg", "/gallery/img3.jpg", "/gallery/img4.jpg", "/gallery/img5.jpg", "/gallery/img6.jpg"];
 
 export default function HomePage() {
+  // 1. Loader State
+  const [isPageLoading, setIsPageLoading] = useState(true);
+
+  // Existing States
   const [current, setCurrent] = useState(0);
   const [activeCategory, setActiveCategory] = useState(null);
   const [progress, setProgress] = useState(0);
   const [latestPackages, setLatestPackages] = useState([]);
   const [pkgError, setPkgError] = useState(null);
+
+  // 2. Effect to handle Loader Timing
+  useEffect(() => {
+    // Set a timeout to ensure the loader is visible for at least 3 seconds
+    // You can adjust '3000' to whatever milliseconds you prefer
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Hero Logic
   const nextSlide = () => { setCurrent(current === heroSlides.length - 1 ? 0 : current + 1); setProgress(0); };
@@ -112,7 +128,7 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, [current]);
 
-  // Fetch latest packages and show the 3 most recent ones
+  // Fetch latest packages
   useEffect(() => {
     let cancelled = false;
     const fetchPackages = async () => {
@@ -135,6 +151,12 @@ export default function HomePage() {
     return () => { cancelled = true; };
   }, []);
 
+  // 3. Conditional Return: Show Loader if loading
+  if (isPageLoading) {
+    return <SDKLoader />;
+  }
+
+  // 4. Main Page Content (Only shows after loader finishes)
   return (
     <div className={`bg-neutral-50 text-neutral-900 ${fontBody} selection:bg-orange-200 selection:text-orange-900`}>
       
@@ -201,9 +223,9 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ---------------------- 2. INTERACTIVE MAP (UPDATED DESIGN) ---------------------- */}
+      {/* ---------------------- 2. INTERACTIVE MAP ---------------------- */}
       <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-white relative overflow-hidden">
-        {/* Decorative Background - Enhanced Size */}
+        {/* Decorative Background */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gradient-to-tr from-orange-50/80 via-purple-50/50 to-blue-50/50 rounded-full blur-3xl pointer-events-none -z-0 opacity-80"></div>
 
         <div className="max-w-[1400px] mx-auto relative z-10">
@@ -224,7 +246,7 @@ export default function HomePage() {
               ))}
             </div>
 
-            {/* Center Map Stage - Made Larger */}
+            {/* Center Map Stage */}
             <div className="w-full lg:w-1/2 flex justify-center py-8 lg:py-0 relative">
                <div className="relative w-full max-w-[550px] aspect-[3/4] flex items-center justify-center">
                  
@@ -280,10 +302,10 @@ export default function HomePage() {
       <section className="py-20 bg-neutral-50 border-t border-neutral-200">
         <div className="px-6 md:px-12 lg:px-24">
           <Reveal>
-             <h2 className={`${fontHead} text-4xl md:text-5xl text-center mb-16`}>Captured Moments</h2>
-             <div className="w-full">
-               <Gallery images={galleryList} />
-             </div>
+              <h2 className={`${fontHead} text-4xl md:text-5xl text-center mb-16`}>Captured Moments</h2>
+              <div className="w-full">
+                <Gallery images={galleryList} />
+              </div>
           </Reveal>
         </div>
       </section>
@@ -325,23 +347,22 @@ export default function HomePage() {
                    Sigiriya is one of the most valuable historical monuments of Sri Lanka. Referred by locals as the Eighth Wonder of the World, this ancient palace and fortress complex has significant archaeological importance and attracts thousands of tourists every year.
                  </p>
                  <div className="grid grid-cols-2 gap-8 my-10 border-y border-neutral-100 py-8">
-                    <div>
-                      <h4 className="text-3xl font-light text-neutral-900 mb-1">1,200</h4>
-                      <p className="text-sm text-neutral-500 uppercase tracking-wider">Steps to Top</p>
-                    </div>
-                    <div>
-                      <h4 className="text-3xl font-light text-neutral-900 mb-1">1982</h4>
-                      <p className="text-sm text-neutral-500 uppercase tracking-wider">Inscribed Year</p>
-                    </div>
+                   <div>
+                     <h4 className="text-3xl font-light text-neutral-900 mb-1">1,200</h4>
+                     <p className="text-sm text-neutral-500 uppercase tracking-wider">Steps to Top</p>
+                   </div>
+                   <div>
+                     <h4 className="text-3xl font-light text-neutral-900 mb-1">1982</h4>
+                     <p className="text-sm text-neutral-500 uppercase tracking-wider">Inscribed Year</p>
+                   </div>
                  </div>
-               <Link 
-  to="/sigiriyafortress"
-  className="flex items-center gap-4 text-neutral-900 font-medium hover:gap-6 transition-all group"
->
-  Read More
-  <div className="w-12 h-[1px] bg-neutral-900 group-hover:bg-orange-500 transition-colors"></div>
-</Link>
-
+                 <Link 
+                  to="/sigiriyafortress"
+                  className="flex items-center gap-4 text-neutral-900 font-medium hover:gap-6 transition-all group"
+                 >
+                   Read More
+                   <div className="w-12 h-[1px] bg-neutral-900 group-hover:bg-orange-500 transition-colors"></div>
+                 </Link>
                </Reveal>
             </div>
           </div>
@@ -399,10 +420,10 @@ export default function HomePage() {
                     <h3 className={`${fontHead} text-2xl text-neutral-900 mb-3 group-hover:text-orange-600 transition-colors`}>{pkg.title}</h3>
                     <p className="text-neutral-500 text-sm leading-relaxed mb-6 border-b border-neutral-100 pb-6">{pkg.desc}</p>
                     <div className="flex justify-between items-center">
-                       <span className="text-sm font-medium underline decoration-neutral-300 underline-offset-4 group-hover:decoration-orange-400 transition-all">View Itinerary</span>
-                       <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-all">
-                         <ArrowRight className="w-4 h-4" />
-                       </div>
+                        <span className="text-sm font-medium underline decoration-neutral-300 underline-offset-4 group-hover:decoration-orange-400 transition-all">View Itinerary</span>
+                        <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-all">
+                          <ArrowRight className="w-4 h-4" />
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -461,7 +482,6 @@ const CategoryCard = ({ cat, active, setActive, align, delay }) => {
           }
         `}
       >
-        {/* Made Image Significantly Bigger (w-20 h-20) */}
         <img 
           src={cat.image} 
           className={`w-20 h-20 rounded-xl object-cover shadow-md transition-transform duration-300 ${isActive ? "scale-105 ring-2 ring-orange-200" : ""}`} 
@@ -476,7 +496,6 @@ const CategoryCard = ({ cat, active, setActive, align, delay }) => {
            </div>
         </div>
         
-        {/* Interactive Indicator */}
         <div className={`
            w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300
            ${isActive ? "bg-orange-100 text-orange-600 rotate-0 opacity-100" : "bg-transparent text-neutral-300 -rotate-45 opacity-0"}

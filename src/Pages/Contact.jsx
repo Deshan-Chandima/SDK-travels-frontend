@@ -174,18 +174,29 @@ export default function Contact() {
 
             {/* Mini Map Visual */}
             <div className="hidden md:block h-64 rounded-[2.5rem] bg-blue-50 border-4 border-white shadow-xl overflow-hidden relative group">
-              <img 
-                src="https://images.unsplash.com/photo-1576014131795-d44019922e96?q=80&w=800&auto=format&fit=crop" 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110" 
-                alt="Map Background" 
-              />
-              <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors duration-300" />
-              <div className="absolute center inset-0 flex items-center justify-center">
-                 <div className="bg-white p-3 rounded-full shadow-lg animate-bounce">
-                    <MapPin className="text-red-500" fill="currentColor" />
-                 </div>
-              </div>
-            </div>
+  
+  {/* Google Map Embed */}
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126743.63297228478!2d79.786164!3d6.921838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2593c8b6a5e7b%3A0x2b9e3c9a1b6a8d6c!2sColombo!5e0!3m2!1sen!2slk!4v1734320000000"
+    className="w-full h-full border-0 transition-all duration-700 scale-100 group-hover:scale-110"
+    allowFullScreen
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+    title="Google Map"
+  />
+
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-blue-900/20 group-hover:bg-transparent transition-colors duration-300 pointer-events-none" />
+
+  {/* Center Pin */}
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="bg-white p-3 rounded-full shadow-lg animate-bounce">
+      <MapPin className="text-red-500" fill="currentColor" />
+    </div>
+  </div>
+
+</div>
+
           </div>
 
           {/* --- RIGHT COLUMN: Complex Form --- */}

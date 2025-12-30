@@ -21,6 +21,7 @@ import {
   Plus
 } from 'lucide-react';
 
+
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const BUCKET_NAME = "images";
 
@@ -88,7 +89,7 @@ const AccommodationOverviewPage = () => {
   const totalPrice = pricePerNight * selectedDays * selectedRooms;
 
   return (
-    <div className="bg-white min-h-screen font-sans text-gray-800 pb-16">
+    <div className="bg-white min-h-screen font-sans text-gray-800 pb-16 pt-20">
       
       {/* --- BREADCRUMBS --- */}
       <div className="border-b border-gray-100">

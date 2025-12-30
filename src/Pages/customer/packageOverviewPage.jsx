@@ -66,7 +66,7 @@ const PackageOverviewPage = () => {
   const mainImage = getImageUrl(images[selectedImageIndex]);
 
   return (
-    <div className="bg-white min-h-screen font-sans text-gray-800 pb-16">
+    <div className="bg-white min-h-screen font-sans text-gray-800 pb-16 pt-20">
       
       {/* --- BREADCRUMBS --- */}
       <div className="border-b border-gray-100">

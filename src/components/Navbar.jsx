@@ -93,12 +93,18 @@ export default function Navbar() {
     }
   };
 
+  // Check if on overview pages (white background pages)
+  const isOverviewPage = location.pathname.includes('/package-overview/') || 
+                         location.pathname.includes('/accommodation-overview/');
+
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrolled || menuOpen
-          ? "bg-black/80 backdrop-blur-lg border-b border-white/10 shadow-lg"
-          : "bg-transparent py-4"
+          ? "bg-black/90 backdrop-blur-lg border-b border-white/10 shadow-lg"
+          : isOverviewPage 
+            ? "bg-black/70 backdrop-blur-md border-b border-white/5 py-4"
+            : "bg-transparent py-4"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 h-16 md:h-20 flex items-center justify-between">

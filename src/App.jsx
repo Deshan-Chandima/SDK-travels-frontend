@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -25,11 +25,15 @@ import SearchResults from "./Pages/SearchResults";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Check if current route is admin panel
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -37,8 +41,8 @@ export default function App() {
       {/* Toast Notifications */}
       <Toaster />
 
-      {/* Navbar only after loader */}
-      {!loading && <Navbar />}
+      {/* Navbar only after loader and not in admin panel */}
+      {!loading && !isAdminRoute && <Navbar />}
 
       {/* Loader */}
       {loading && <Loader />}
@@ -65,8 +69,8 @@ export default function App() {
         <Route path="/search" element={<SearchResults />} />
       </Routes>
 
-      {/* Footer only after loader */}
-      {!loading && <Footer />}
+      {/* Footer only after loader and not in admin panel */}
+      {!loading && !isAdminRoute && <Footer />}
 
     </div>
   );

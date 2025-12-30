@@ -65,6 +65,13 @@ const PackageOverviewPage = () => {
   const images = Array.isArray(package_.images) ? package_.images : [package_.images];
   const mainImage = getImageUrl(images[selectedImageIndex]);
 
+  // Normalize citiesCovered to an array of trimmed strings
+  const cities = Array.isArray(package_.citiesCovered)
+    ? package_.citiesCovered.map((c) => String(c).trim()).filter(Boolean)
+    : package_.citiesCovered
+      ? String(package_.citiesCovered).split(',').map((s) => s.trim()).filter(Boolean)
+      : [];
+
   return (
     <div className="bg-white min-h-screen font-sans text-gray-800 pb-16 pt-20">
       
@@ -121,7 +128,13 @@ const PackageOverviewPage = () => {
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center gap-2 text-blue-600 text-sm font-semibold">
                     <MapPin size={16} />
-                    {package_.citiesCovered?.[0] || "Sri Lanka"}
+                    {cities.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {cities.map((c, idx) => (
+                          <span key={idx} className="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">{c}</span>
+                        ))}
+                      </div>
+                    ) : "Sri Lanka"}
                   </div>
                   <div className="flex gap-2">
                     <button className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors">
@@ -153,7 +166,7 @@ const PackageOverviewPage = () => {
                   <p className="text-gray-500 text-sm mb-1">Starting price per person</p>
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-black text-gray-900">
-                      Rs {package_.price?.toLocaleString()}
+                      $ {package_.price?.toLocaleString()}
                     </span>
                     <span className="text-sm text-green-600 font-medium bg-green-50 px-2 py-1 rounded">
                       Available Now
@@ -226,6 +239,20 @@ const PackageOverviewPage = () => {
                 <p className="text-gray-600 leading-relaxed text-lg">
                   {package_.description || package_.shortDescription || "Experience the best of Sri Lanka with this carefully curated package."}
                 </p>
+
+                <div className="mt-4">
+                  <h4 className="font-semibold text-gray-900 mb-2">Covered Cities</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {cities.length > 0 ? (
+                      cities.map((c, idx) => (
+                        <span key={idx} className="bg-blue-50 text-blue-800 px-3 py-1 rounded-full text-sm">{c}</span>
+                      ))
+                    ) : (
+                      <span className="text-gray-500">Sri Lanka</span>
+                    )}
+                  </div>
+                </div>
+
                 <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
                   <h4 className="font-bold text-blue-800 mb-2 flex items-center gap-2">
                     <Info size={18} /> Why travelers love this

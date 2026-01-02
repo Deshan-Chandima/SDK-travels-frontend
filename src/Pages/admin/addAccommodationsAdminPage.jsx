@@ -63,11 +63,11 @@ export default function AddAccommodationAdminPage() {
     try {
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/accommodations`,
-        acc,
+        { ...acc, pricePerNight: parseFloat(acc.pricePerNight) || 0 },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Accommodation added successfully!");
-      navigate("/admin/accommodations");
+      navigate("/admin/hotels");
     } catch (err) {
       console.error("Error adding accommodation:", err);
       alert(err.response?.data?.message || "Failed to add accommodation");

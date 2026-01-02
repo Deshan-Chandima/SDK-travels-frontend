@@ -93,14 +93,8 @@ const SigiriyaPage = () => {
               </p>
             </div>
 
-            {/* Interactive Play/Explore Block */}
+            {/* Interactive Play/Explore Block - Removed */ }
             <div className="lg:col-span-4 flex justify-start lg:justify-end pb-2">
-                <button className="group relative flex items-center gap-4 pl-2 pr-6 py-2 overflow-hidden rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-yellow-600 hover:border-yellow-600 transition-all duration-500">
-                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-stone-900 group-hover:scale-110 transition-transform">
-                        <ArrowDown size={18} />
-                    </div>
-                    <span className="text-xs font-bold tracking-widest uppercase text-white">Begin Journey</span>
-                </button>
             </div>
           </div>
         </div>

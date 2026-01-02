@@ -75,16 +75,7 @@ const PackageOverviewPage = () => {
   return (
     <div className="bg-white min-h-screen font-sans text-gray-800 pb-16 pt-20">
       
-      {/* --- BREADCRUMBS --- */}
-      <div className="border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 py-3 text-sm text-gray-500 flex items-center gap-2">
-          <span className="cursor-pointer hover:text-blue-600" onClick={() => navigate('/')}>Home</span>
-          <ChevronRight size={14} />
-          <span className="cursor-pointer hover:text-blue-600" onClick={() => navigate('/packages')}>Packages</span>
-          <ChevronRight size={14} />
-          <span className="text-gray-900 font-medium truncate">{package_.title}</span>
-        </div>
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -137,10 +128,22 @@ const PackageOverviewPage = () => {
                     ) : "Sri Lanka"}
                   </div>
                   <div className="flex gap-2">
-                    <button className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors">
-                      <Heart size={20} />
-                    </button>
-                    <button className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors">
+                    <button 
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({
+                            title: package_.title,
+                            text: `Check out this travel package: ${package_.title}`,
+                            url: window.location.href,
+                          }).catch(console.error);
+                        } else {
+                          navigator.clipboard.writeText(window.location.href);
+                          alert("Link copied to clipboard!");
+                        }
+                      }}
+                      className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors"
+                      title="Share Package"
+                    >
                       <Share2 size={20} />
                     </button>
                   </div>

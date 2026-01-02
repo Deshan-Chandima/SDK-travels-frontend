@@ -91,16 +91,7 @@ const AccommodationOverviewPage = () => {
   return (
     <div className="bg-white min-h-screen font-sans text-gray-800 pb-16 pt-20">
       
-      {/* --- BREADCRUMBS --- */}
-      <div className="border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 py-3 text-sm text-gray-500 flex items-center gap-2">
-          <span className="cursor-pointer hover:text-blue-600" onClick={() => navigate('/')}>Home</span>
-          <ChevronRight size={14} />
-          <span className="cursor-pointer hover:text-blue-600" onClick={() => navigate('/accommodations')}>Accommodations</span>
-          <ChevronRight size={14} />
-          <span className="text-gray-900 font-medium truncate">{accommodation.name}</span>
-        </div>
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -151,10 +142,22 @@ const AccommodationOverviewPage = () => {
                     {accommodation.location || "Sri Lanka"}
                   </div>
                   <div className="flex gap-2">
-                    <button className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-colors">
-                      <Heart size={20} />
-                    </button>
-                    <button className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors">
+                    <button 
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({
+                            title: accommodation.name,
+                            text: `Check out this ${accommodation.type}: ${accommodation.name}`,
+                            url: window.location.href,
+                          }).catch(console.error);
+                        } else {
+                          navigator.clipboard.writeText(window.location.href);
+                          alert("Link copied to clipboard!");
+                        }
+                      }}
+                      className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-blue-600 transition-colors"
+                      title="Share Accommodation"
+                    >
                       <Share2 size={20} />
                     </button>
                   </div>
@@ -181,9 +184,9 @@ const AccommodationOverviewPage = () => {
                 <div>
                    <p className="text-gray-500 text-sm mb-1">Price per night</p>
                    <div className="flex items-baseline gap-2">
-                     <span className="text-4xl font-black text-gray-900">
-                       ${pricePerNight.toLocaleString()}
-                     </span>
+                      <span className="text-4xl font-black text-gray-900">
+                        {pricePerNight > 0 ? `$${pricePerNight.toLocaleString()}` : "Ask"}
+                      </span>
                      <span className="text-sm text-green-600 font-medium bg-green-50 px-2 py-1 rounded">
                        Available
                      </span>
@@ -241,16 +244,16 @@ const AccommodationOverviewPage = () => {
                 {/* Total Price Calculation */}
                 <div className="flex justify-between items-center py-2 px-1">
                     <span className="font-medium text-gray-500">Total ({selectedDays} nights, {selectedRooms} rooms)</span>
-                    <span className="text-xl font-bold text-blue-600">${totalPrice.toLocaleString()}</span>
+                    <span className="text-xl font-bold text-blue-600">{totalPrice > 0 ? `$${totalPrice.toLocaleString()}` : "Ask"}</span>
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-3">
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold py-4 rounded-xl shadow-lg shadow-blue-200 transition-transform active:scale-95 flex items-center justify-center gap-2">
+                  <button 
+                    onClick={() => navigate('/contact')} 
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold py-4 rounded-xl shadow-lg shadow-blue-200 transition-transform active:scale-95 flex items-center justify-center gap-2"
+                  >
                     Book Now <ArrowRight size={20}/>
-                  </button>
-                  <button className="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-bold py-3 rounded-xl transition-colors">
-                    Contact Host
                   </button>
                 </div>
 

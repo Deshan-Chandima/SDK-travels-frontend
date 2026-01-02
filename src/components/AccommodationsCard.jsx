@@ -56,10 +56,10 @@ const AccommodationCard = ({ accommodation }) => {
   } = accommodation || {};
 
   // --- 2. Calculate "Starting From" Price ---
-  // Since you have multiple packages (Standard, Deluxe), we show the lowest price.
-  const startingPrice = packages && packages.length > 0 
+  // STARTING FROM PRICE logic: Prefer root pricePerNight, else min of packages
+  const startingPrice = accommodation.pricePerNight || (packages && packages.length > 0 
     ? Math.min(...packages.map(p => p.pricePerNight)) 
-    : null;
+    : null);
 
   // --- 3. Image Handling Logic ---
   const [currentIdx, setCurrentIdx] = useState(0);

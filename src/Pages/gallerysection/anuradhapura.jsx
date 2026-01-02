@@ -58,16 +58,7 @@ const AnuradhapuraPage = () => {
         </div>
         
         {/* Navigation / Header Area (Simulated) */}
-        <div className="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-30 text-white/90">
-             <div className="text-xs font-bold tracking-[0.3em] uppercase border-b border-transparent hover:border-amber-500 transition-colors cursor-pointer">
-                SDK Travel
-             </div>
-             <div className="hidden md:flex gap-8 text-xs font-bold tracking-widest uppercase">
-                <span className="hover:text-amber-400 cursor-pointer transition-colors">History</span>
-                <span className="hover:text-amber-400 cursor-pointer transition-colors">Destinations</span>
-                <span className="hover:text-amber-400 cursor-pointer transition-colors">Luxury</span>
-             </div>
-        </div>
+        {/* Navigation / Header Area (Simulated) - Removed */ }
 
         {/* Hero Content - Bottom Aligned & Modern */}
         <div className="absolute bottom-0 left-0 w-full p-6 md:p-16 z-20">
@@ -86,14 +77,8 @@ const AnuradhapuraPage = () => {
               </p>
             </div>
 
-            {/* Interactive Play/Explore Block */}
+            {/* Interactive Play/Explore Block - Removed */}
             <div className="lg:col-span-4 flex justify-start lg:justify-end pb-2">
-                <button className="group relative flex items-center gap-4 pl-2 pr-6 py-2 overflow-hidden rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-600 hover:border-amber-600 transition-all duration-500">
-                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-stone-900 group-hover:scale-110 transition-transform">
-                        <ArrowDown size={18} />
-                    </div>
-                    <span className="text-xs font-bold tracking-widest uppercase text-white">Begin Journey</span>
-                </button>
             </div>
           </div>
         </div>

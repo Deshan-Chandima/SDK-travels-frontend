@@ -266,7 +266,7 @@ export default function Navbar() {
                   <Link
                     to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
                     onClick={() => setMenuOpen(false)}
-                    className={`text-3xl font-bold ${
+                    className={`text-2xl font-bold ${
                       item === 'Contact' ? 'text-blue-500' : 'text-white'
                     }`}
                   >

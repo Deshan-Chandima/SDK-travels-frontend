@@ -50,9 +50,9 @@ export default function Footer() {
           </div>
 
           {/* Column 2: Quick Links */}
-          <div className="px-3 flex flex-col items-center justify-center">
-            <h3 className="mb-6 text-lg font-semibold text-white text-center">Explore</h3>
-            <ul className="space-y-3 text-center">
+          <div className="px-3 flex flex-col items-start md:items-center justify-center">
+            <h3 className="mb-6 text-lg font-semibold text-white text-left md:text-center">Explore</h3>
+            <ul className="space-y-3 text-left md:text-center">
               <FooterLink to="/" label="Home" />
               <FooterLink to="/packages" label="Package" />
               <FooterLink to="/accommodations" label="Accommodations" />
